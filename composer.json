@@ -1,0 +1,17 @@
+{
+    "name": "lupasearch/lupasearch-php-client",
+    "description": "LupaSearch API PHP Client",
+    "type": "library",
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7"
+    },
+    "autoload": {
+      "psr-4": {
+        "LupaSearch\\": "src/"
+      }
+    },
+    "license": "MIT",
+    "minimum-stability": "dev"
+}
