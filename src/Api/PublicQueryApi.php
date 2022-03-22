@@ -4,6 +4,8 @@ namespace LupaSearch\Api;
 
 use LupaSearch\LupaClient;
 
+use function json_encode;
+
 class PublicQueryApi
 {
     private $client;

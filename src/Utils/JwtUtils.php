@@ -10,9 +10,9 @@ class JwtUtils
             return false;
         }
 
-        [, $payload] = explode(".", $jwtToken);
+        [, $payload] = explode('.', $jwtToken);
         $payload = json_decode(base64_decode($payload), true);
 
-        return isset($payload["exp"]) && time() < $payload["exp"];
+        return isset($payload['exp']) && time() < $payload['exp'];
     }
 }

@@ -5,6 +5,8 @@ namespace LupaSearch\Api;
 use LupaSearch\LupaClient;
 use GuzzleHttp\Psr7\Query;
 
+use function json_encode;
+
 class UsersApi
 {
     private $client;
