@@ -1,0 +1,12 @@
+# Windows files
+Thumbs.db
+
+# IDE
+/.vscode
+/.idea
+
+# OS X
+.DS_Store
+
+composer.lock
+/vendor
