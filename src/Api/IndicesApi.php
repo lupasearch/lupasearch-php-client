@@ -54,9 +54,9 @@ class IndicesApi
         );
     }
 
-    public function deleteIndex(string $indexId): array
+    public function deleteIndex(string $indexId): void
     {
-        return $this->client->send(LupaClientInterface::METHOD_DELETE, "/indices/$indexId", true);
+        $this->client->send(LupaClientInterface::METHOD_DELETE, "/indices/$indexId", true);
     }
 
     public function setIndexStatus(string $indexId, array $queryParams = []): array
@@ -75,8 +75,8 @@ class IndicesApi
         return $this->client->send(LupaClientInterface::METHOD_POST, "/indices/$indexId/reindex", true);
     }
 
-    public function deleteTemporaryIndex(string $indexId): array
+    public function deleteTemporaryIndex(string $indexId): void
     {
-        return $this->client->send(LupaClientInterface::METHOD_DELETE, "/indices/$indexId/temporary", true);
+        $this->client->send(LupaClientInterface::METHOD_DELETE, "/indices/$indexId/temporary", true);
     }
 }

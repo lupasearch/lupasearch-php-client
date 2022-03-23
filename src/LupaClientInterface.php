@@ -2,7 +2,6 @@
 
 namespace LupaSearch;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use LupaSearch\Exceptions\AuthenticationException;
@@ -29,7 +28,7 @@ interface LupaClientInterface
         'User-Agent' => self::USER_AGENT,
     ];
 
-    public function getHttpClient(): Client;
+    public function getHttpClient(): ClientInterface;
 
     public function setHttpClient(ClientInterface $httpClient): self;
 
@@ -42,11 +41,6 @@ interface LupaClientInterface
     public function setPassword(string $password): self;
 
     /**
-     * @param string $method
-     * @param string $uri
-     * @param bool $requireAuthentication
-     * @param string|null $httpBody
-     * @return array
      * @throws AuthenticationException
      * @throws GuzzleException
      * @throws MissingCredentialsException

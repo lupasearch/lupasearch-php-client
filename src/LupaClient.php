@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace LupaSearch;
 
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Utils;
 use LupaSearch\Exceptions\AuthenticationException;
 use LupaSearch\Exceptions\MissingCredentialsException;
@@ -13,7 +12,6 @@ use LupaSearch\Exceptions\TooManyRetriesException;
 use LupaSearch\Factories\HttpClientFactory;
 use LupaSearch\Factories\HttpClientFactoryInterface;
 use LupaSearch\Utils\JwtUtils;
-use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
@@ -50,7 +48,7 @@ class LupaClient implements LupaClientInterface
         $this->httpClientFactory = $httpClientFactory ?? new HttpClientFactory();
     }
 
-    public function getHttpClient(): Client
+    public function getHttpClient(): ClientInterface
     {
         if (null === $this->httpClient) {
             $this->setHttpClient($this->httpClientFactory->create());
