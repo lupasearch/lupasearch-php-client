@@ -8,7 +8,7 @@
 Initiate client object and authenticate
 
 ```
-$client = new LupaClient();
+$client = new \LupaSearch\LupaClient();
 $client
     ->setEmail('account@search.com')
     ->setPassword('password')
@@ -33,7 +33,7 @@ $documents = [
     ]
 ];
 
-$lupaDocumentsApi = new DocumentsApi($client);
+$lupaDocumentsApi = new \LupaSearch\Api\DocumentsApi($client);
 $importResponse = $lupaDocumentsApi->importDocuments(
     $indexId,
     $documents
@@ -43,7 +43,7 @@ $importResponse = $lupaDocumentsApi->importDocuments(
 Track progress of asynchronous tasks
 
 ```
-$lupaTasksApi = new TasksApi($client);
+$lupaTasksApi = new \LupaSearch\Api\TasksApi($client);
 $tasks = $lupaTasksApi->getTasks($indexId, [
     'batchKey' => $importResponse['batchKey']
 ]);

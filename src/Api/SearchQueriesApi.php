@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LupaSearch\Api;
 
-use LupaSearch\LupaClient;
-
-use function json_encode;
+use GuzzleHttp\Utils;
+use LupaSearch\LupaClientInterface;
 
 class SearchQueriesApi
 {
+    /**
+     * @var LupaClientInterface
+     */
     private $client;
 
-    public function __construct(LupaClient $client)
+    public function __construct(LupaClientInterface $client)
     {
         $this->client = $client;
     }
@@ -18,8 +22,8 @@ class SearchQueriesApi
     public function getSearchQueries(string $indexId): array
     {
         return $this->client->send(
-            LupaClient::METHOD_GET,
-            LupaClient::API_BASE_PATH . "/indices/$indexId/queries",
+            LupaClientInterface::METHOD_GET,
+            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/queries",
             true
         );
     }
@@ -27,47 +31,37 @@ class SearchQueriesApi
     public function createSearchQuery(string $indexId, array $httpBody): array
     {
         return $this->client->send(
-            LupaClient::METHOD_POST,
-            LupaClient::API_BASE_PATH . "/indices/$indexId/queries",
+            LupaClientInterface::METHOD_POST,
+            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/queries",
             true,
-            json_encode($httpBody)
+            Utils::jsonEncode($httpBody)
         );
     }
 
-    public function getSearchQuery(
-        string $indexId,
-        string $searchQueryId
-    ): array {
+    public function getSearchQuery(string $indexId, string $searchQueryId): array
+    {
         return $this->client->send(
-            LupaClient::METHOD_GET,
-            LupaClient::API_BASE_PATH .
-                "/indices/$indexId/queries/$searchQueryId",
+            LupaClientInterface::METHOD_GET,
+            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/queries/$searchQueryId",
             true
         );
     }
 
-    public function updateSearchQuery(
-        string $indexId,
-        string $searchQueryId,
-        array $httpBody
-    ): array {
+    public function updateSearchQuery(string $indexId, string $searchQueryId, array $httpBody): array
+    {
         return $this->client->send(
-            LupaClient::METHOD_PUT,
-            LupaClient::API_BASE_PATH .
-                "/indices/$indexId/queries/$searchQueryId",
+            LupaClientInterface::METHOD_PUT,
+            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/queries/$searchQueryId",
             true,
-            json_encode($httpBody)
+            Utils::jsonEncode($httpBody)
         );
     }
 
-    public function deleteSearchQuery(
-        string $indexId,
-        string $searchQueryId
-    ): array {
+    public function deleteSearchQuery(string $indexId, string $searchQueryId): array
+    {
         return $this->client->send(
-            LupaClient::METHOD_DELETE,
-            LupaClient::API_BASE_PATH .
-                "/indices/$indexId/queries/$searchQueryId",
+            LupaClientInterface::METHOD_DELETE,
+            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/queries/$searchQueryId",
             true
         );
     }

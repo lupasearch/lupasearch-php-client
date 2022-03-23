@@ -1,16 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LupaSearch\Api;
 
-use LupaSearch\LupaClient;
-
-use function json_encode;
+use GuzzleHttp\Utils;
+use LupaSearch\LupaClientInterface;
 
 class SynonymsApi
 {
     private $client;
 
-    public function __construct(LupaClient $client)
+    public function __construct(LupaClientInterface $client)
     {
         $this->client = $client;
     }
@@ -18,8 +19,8 @@ class SynonymsApi
     public function getSynonyms(string $indexId): array
     {
         return $this->client->send(
-            LupaClient::METHOD_GET,
-            LupaClient::API_BASE_PATH . "/indices/$indexId/synonyms",
+            LupaClientInterface::METHOD_GET,
+            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/synonyms",
             true
         );
     }
@@ -27,21 +28,20 @@ class SynonymsApi
     public function createSynonyms(string $indexId, array $httpBody): array
     {
         return $this->client->send(
-            LupaClient::METHOD_POST,
-            LupaClient::API_BASE_PATH . "/indices/$indexId/synonyms",
+            LupaClientInterface::METHOD_POST,
+            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/synonyms",
             true,
-            json_encode($httpBody)
+            Utils::jsonEncode($httpBody)
         );
     }
 
     public function deleteSynonyms(string $indexId, array $httpBody): array
     {
         return $this->client->send(
-            LupaClient::METHOD_POST,
-            LupaClient::API_BASE_PATH .
-                "/indices/$indexId/synonyms/batchDelete",
+            LupaClientInterface::METHOD_POST,
+            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/synonyms/batchDelete",
             true,
-            json_encode($httpBody)
+            Utils::jsonEncode($httpBody)
         );
     }
 }

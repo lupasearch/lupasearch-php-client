@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LupaSearch\Api;
 
-use LupaSearch\LupaClient;
 use GuzzleHttp\Psr7\Query;
+use LupaSearch\LupaClientInterface;
 
 class TasksApi
 {
     private $client;
 
-    public function __construct(LupaClient $client)
+    public function __construct(LupaClientInterface $client)
     {
         $this->client = $client;
     }
@@ -19,10 +21,8 @@ class TasksApi
         $query = Query::build($queryParams);
 
         return $this->client->send(
-            LupaClient::METHOD_GET,
-            LupaClient::API_BASE_PATH .
-                "/indices/$indexId/tasks" .
-                ($query ? "?{$query}" : ''),
+            LupaClientInterface::METHOD_GET,
+            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/tasks" . ($query ? "?{$query}" : ''),
             true
         );
     }

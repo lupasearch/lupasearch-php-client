@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LupaSearch\Api;
 
-use LupaSearch\LupaClient;
-
-use function json_encode;
+use GuzzleHttp\Utils;
+use LupaSearch\LupaClientInterface;
 
 class PublicQueryApi
 {
+    /**
+     * @var LupaClientInterface
+     */
     private $client;
 
-    public function __construct(LupaClient $client)
+    public function __construct(LupaClientInterface $client)
     {
         $this->client = $client;
     }
@@ -18,10 +22,10 @@ class PublicQueryApi
     public function search(string $queryKey, array $httpBody): array
     {
         return $this->client->send(
-            LupaClient::METHOD_POST,
-            LupaClient::API_BASE_PATH . "/query/$queryKey",
+            LupaClientInterface::METHOD_POST,
+            LupaClientInterface::API_BASE_PATH . "/query/$queryKey",
             false,
-            json_encode($httpBody)
+            Utils::jsonEncode($httpBody)
         );
     }
 }

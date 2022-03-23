@@ -7,3 +7,6 @@ Thumbs.db
 
 # OS X
 .DS_Store
+
+composer.lock
+/vendor

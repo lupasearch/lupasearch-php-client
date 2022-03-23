@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LupaSearch;
 
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Utils;
 use LupaSearch\Exceptions\AuthenticationException;
 use LupaSearch\Exceptions\MissingCredentialsException;
 use LupaSearch\Exceptions\TooManyRetriesException;
@@ -15,28 +18,8 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 
-use function json_encode;
-
-class LupaClient
+class LupaClient implements LupaClientInterface
 {
-    const VERSION = '0.1.0';
-
-    const API_BASE_PATH = 'https://api.lupasearch.com/v1';
-    const USER_AGENT = 'LupaSearch API PHP Client, v' . self::VERSION;
-
-    const METHOD_GET = 'GET';
-    const METHOD_POST = 'POST';
-    const METHOD_PUT = 'PUT';
-    const METHOD_DELETE = 'DELETE';
-
-    const REQUEST_MAX_RETRIES = 3;
-
-    const DEFAULT_HEADERS = [
-        'Content-Type' => 'application/json',
-        'Accept' => 'application/json',
-        'User-Agent' => self::USER_AGENT
-    ];
-
     /**
      * @var HttpClientFactoryInterface|null
      */
@@ -62,14 +45,12 @@ class LupaClient
      */
     private $password;
 
-    public function __construct(
-        HttpClientFactoryInterface $httpClientFactory = null
-    ) {
-        $this->httpClientFactory =
-            $httpClientFactory ?? new HttpClientFactory();
+    public function __construct(HttpClientFactoryInterface $httpClientFactory = null)
+    {
+        $this->httpClientFactory = $httpClientFactory ?? new HttpClientFactory();
     }
 
-    private function getHttpClient(): Client
+    public function getHttpClient(): Client
     {
         if (null === $this->httpClient) {
             $this->setHttpClient($this->httpClientFactory->create());
@@ -78,21 +59,21 @@ class LupaClient
         return $this->httpClient;
     }
 
-    private function setHttpClient(ClientInterface $httpClient): self
+    public function setHttpClient(ClientInterface $httpClient): self
     {
         $this->httpClient = $httpClient;
 
         return $this;
     }
 
-    private function setJwtToken(?string $jwtToken): self
+    public function setJwtToken(?string $jwtToken): self
     {
         $this->jwtToken = $jwtToken;
 
         return $this;
     }
 
-    private function getJwtToken(): ?string
+    public function getJwtToken(): ?string
     {
         return $this->jwtToken;
     }
@@ -112,15 +93,7 @@ class LupaClient
     }
 
     /**
-     * @param string $method
-     * @param string $uri
-     * @param bool $requireAuthentication
-     * @param string|null $httpBody
-     * @return array
-     * @throws AuthenticationException
-     * @throws GuzzleException
-     * @throws MissingCredentialsException
-     * @throws TooManyRetriesException
+     * @inheritDoc
      */
     public function send(
         string $method,
@@ -136,30 +109,21 @@ class LupaClient
             $attempts++;
             if ($attempts > self::REQUEST_MAX_RETRIES) {
                 throw new TooManyRetriesException(
-                    'Request failed after ' .
-                        self::REQUEST_MAX_RETRIES .
-                        ' retries',
+                    'Request failed after ' . self::REQUEST_MAX_RETRIES . ' retries',
                     0,
                     $e
                 );
             }
 
             if ($requireAuthentication) {
-                $jwtToken = $this->getJwtToken();
-                if (!JwtUtils::isJwtTokenValid($jwtToken)) {
-                    $jwtToken = $this->authenticate();
-                }
-
-                $request = $request->withHeader(
-                    'Authorization',
-                    "Bearer $jwtToken"
-                );
+                $jwtToken = $this->getOrRefreshJwtToken();
+                $request = $request->withHeader('Authorization', "Bearer $jwtToken");
             }
 
             try {
                 $response = $this->getHttpClient()->send($request);
 
-                return json_decode($response->getBody(), true);
+                return Utils::jsonDecode($response->getBody(), true);
             } catch (ConnectException $e) {
                 continue;
             } catch (ClientException $e) {
@@ -173,9 +137,7 @@ class LupaClient
     }
 
     /**
-     * @return string
-     * @throws AuthenticationException
-     * @throws MissingCredentialsException
+     * @inheritDoc
      */
     public function authenticate(): string
     {
@@ -189,14 +151,14 @@ class LupaClient
 
         $response = $this->userLogin([
             'email' => $this->email,
-            'password' => $this->password
+            'password' => $this->password,
         ]);
 
-        if (isset($response['token'])) {
-            $this->setJwtToken($response['token']);
-        } else {
+        if (empty($response['token'])) {
             throw new AuthenticationException('Authentication failed');
         }
+
+        $this->setJwtToken($response['token']);
 
         return $response['token'];
     }
@@ -207,7 +169,21 @@ class LupaClient
             self::METHOD_POST,
             self::API_BASE_PATH . '/users/login',
             false,
-            json_encode($credentials)
+            Utils::jsonEncode($credentials)
         );
+    }
+
+    /**
+     * @throws AuthenticationException
+     * @throws MissingCredentialsException
+     */
+    protected function getOrRefreshJwtToken(): string
+    {
+        $jwtToken = $this->getJwtToken();
+        if (!JwtUtils::isJwtTokenValid($jwtToken)) {
+            $jwtToken = $this->authenticate();
+        }
+
+        return $jwtToken;
     }
 }

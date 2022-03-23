@@ -1,71 +1,61 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LupaSearch\Api;
 
-use LupaSearch\LupaClient;
+use GuzzleHttp\Utils;
 use GuzzleHttp\Psr7\Query;
-
-use function json_encode;
+use LupaSearch\LupaClientInterface;
 
 class UsersApi
 {
+    /**
+     * @var LupaClientInterface
+     */
     private $client;
 
-    public function __construct(LupaClient $client)
+    public function __construct(LupaClientInterface $client)
     {
         $this->client = $client;
     }
 
-    public function getOrganizationUsers(
-        string $organizationSlug,
-        array $queryParams = []
-    ): array {
+    public function getOrganizationUsers(string $organizationSlug, array $queryParams = []): array
+    {
         $query = Query::build($queryParams);
 
         return $this->client->send(
-            LupaClient::METHOD_GET,
-            LupaClient::API_BASE_PATH .
-                "/organizations/$organizationSlug/users" .
-                ($query ? "?{$query}" : ''),
+            LupaClientInterface::METHOD_GET,
+            LupaClientInterface::API_BASE_PATH . "/organizations/$organizationSlug/users" . ($query ? "?{$query}" : ''),
             true
         );
     }
 
-    public function createOrganizationUser(
-        string $organizationSlug,
-        array $httpBody
-    ): array {
+    public function createOrganizationUser(string $organizationSlug, array $httpBody): array
+    {
         return $this->client->send(
-            LupaClient::METHOD_POST,
-            LupaClient::API_BASE_PATH .
-                "/organizations/$organizationSlug/users",
+            LupaClientInterface::METHOD_POST,
+            LupaClientInterface::API_BASE_PATH . "/organizations/$organizationSlug/users",
             true,
-            json_encode($httpBody)
+            Utils::jsonEncode($httpBody)
         );
     }
 
-    public function updateOrganizationUser(
-        string $organizationSlug,
-        string $userId,
-        array $httpBody
-    ): array {
+    public function updateOrganizationUser(string $organizationSlug, string $userId, array $httpBody): array
+    {
         return $this->client->send(
-            LupaClient::METHOD_POST,
-            LupaClient::API_BASE_PATH .
-                "/organizations/$organizationSlug/users/$userId",
+            LupaClientInterface::METHOD_POST,
+            LupaClientInterface::API_BASE_PATH . "/organizations/$organizationSlug/users/$userId",
             true,
-            json_encode($httpBody)
+            Utils::jsonEncode($httpBody)
         );
     }
 
-    public function deleteOrganizationUser(
-        string $organizationSlug,
-        string $userId
-    ): array {
+    public function deleteOrganizationUser(string $organizationSlug, string $userId): array
+    {
         return $this->client->send(
-            LupaClient::METHOD_DELETE,
-            LupaClient::API_BASE_PATH .
-                "/organizations/$organizationSlug/users/$userId",
+            LupaClientInterface::METHOD_DELETE,
+            LupaClientInterface::API_BASE_PATH . "/organizations/$organizationSlug/users/$userId",
             true
         );
     }
@@ -78,8 +68,8 @@ class UsersApi
     public function myInfo(): array
     {
         return $this->client->send(
-            LupaClient::METHOD_GET,
-            LupaClient::API_BASE_PATH . '/users/me',
+            LupaClientInterface::METHOD_GET,
+            LupaClientInterface::API_BASE_PATH . '/users/me',
             true
         );
     }

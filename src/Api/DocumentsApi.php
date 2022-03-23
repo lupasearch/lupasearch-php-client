@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LupaSearch\Api;
 
-use LupaSearch\LupaClient;
-
-use function json_encode;
+use GuzzleHttp\Utils;
+use LupaSearch\LupaClientInterface;
 
 class DocumentsApi
 {
+    /**
+     * @var LupaClientInterface
+     */
     private $client;
 
-    public function __construct(LupaClient $client)
+    public function __construct(LupaClientInterface $client)
     {
         $this->client = $client;
     }
@@ -18,20 +22,20 @@ class DocumentsApi
     public function importDocuments(string $indexId, array $httpBody): array
     {
         return $this->client->send(
-            LupaClient::METHOD_POST,
-            LupaClient::API_BASE_PATH . "/indices/$indexId/documents",
+            LupaClientInterface::METHOD_POST,
+            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/documents",
             true,
-            json_encode($httpBody)
+            Utils::jsonEncode($httpBody)
         );
     }
 
     public function replaceAllDocuments(string $indexId, array $httpBody): array
     {
         return $this->client->send(
-            LupaClient::METHOD_POST,
-            LupaClient::API_BASE_PATH . "/indices/$indexId/replaceAllDocuments",
+            LupaClientInterface::METHOD_POST,
+            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/replaceAllDocuments",
             true,
-            json_encode($httpBody)
+            Utils::jsonEncode($httpBody)
         );
     }
 }

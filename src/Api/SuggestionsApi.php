@@ -1,24 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LupaSearch\Api;
 
-use LupaSearch\LupaClient;
+use LupaSearch\LupaClientInterface;
 
 class SuggestionsApi
 {
+    /**
+     * @var LupaClientInterface
+     */
     private $client;
 
-    public function __construct(LupaClient $client)
+    public function __construct(LupaClientInterface $client)
     {
         $this->client = $client;
     }
 
     public function generateSuggestions(string $indexId): array
     {
-        return $this->send(
-            LupaClient::METHOD_POST,
-            LupaClient::API_BASE_PATH .
-                "/indices/$indexId/suggestions/generate",
+        return $this->client->send(
+            LupaClientInterface::METHOD_POST,
+            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/suggestions/generate",
             true
         );
     }
