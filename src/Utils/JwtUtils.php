@@ -10,7 +10,7 @@ class JwtUtils
 {
     public static function isJwtTokenValid(?string $jwtToken): bool
     {
-        if (!is_string($jwtToken) || false === strpos($jwtToken, '.')) {
+        if (!$jwtToken || false === strpos($jwtToken, '.')) {
             return false;
         }
 
