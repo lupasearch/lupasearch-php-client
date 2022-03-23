@@ -122,7 +122,7 @@ class LupaClient implements LupaClientInterface
             try {
                 $response = $this->getHttpClient()->send($request);
 
-                return Utils::jsonDecode($response->getBody(), true);
+                return Utils::jsonDecode($response->getBody()->getContents(), true);
             } catch (ConnectException $e) {
                 continue;
             } catch (ClientException $e) {
