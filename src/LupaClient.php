@@ -167,12 +167,7 @@ class LupaClient implements LupaClientInterface
      */
     public function userLogin(array $credentials): array
     {
-        return $this->send(
-            self::METHOD_POST,
-            self::API_BASE_PATH . '/users/login',
-            false,
-            Utils::jsonEncode($credentials)
-        );
+        return $this->send(self::METHOD_POST, '/users/login', false, Utils::jsonEncode($credentials));
     }
 
     /**
