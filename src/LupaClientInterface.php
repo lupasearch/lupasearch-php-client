@@ -59,5 +59,11 @@ interface LupaClientInterface
      */
     public function authenticate(): string;
 
+    /**
+     * @throws AuthenticationException
+     * @throws MissingCredentialsException
+     * @throws TooManyRetriesException
+     * @throws GuzzleException
+     */
     public function userLogin(array $credentials): array;
 }

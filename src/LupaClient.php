@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LupaSearch;
 
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Utils;
 use LupaSearch\Exceptions\AuthenticationException;
 use LupaSearch\Exceptions\MissingCredentialsException;
@@ -161,6 +162,9 @@ class LupaClient implements LupaClientInterface
         return $response['token'];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function userLogin(array $credentials): array
     {
         return $this->send(

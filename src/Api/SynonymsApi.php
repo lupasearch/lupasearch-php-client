@@ -9,6 +9,9 @@ use LupaSearch\LupaClientInterface;
 
 class SynonymsApi
 {
+    /**
+     * @var LupaClientInterface
+     */
     private $client;
 
     public function __construct(LupaClientInterface $client)
