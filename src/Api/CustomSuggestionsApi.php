@@ -21,28 +21,24 @@ class CustomSuggestionsApi
 
     public function getCustomSuggestions(string $indexId): array
     {
-        return $this->client->send(
-            LupaClientInterface::METHOD_GET,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/customSuggestions",
-            true
-        );
+        return $this->client->send(LupaClientInterface::METHOD_GET, "/indices/$indexId/customSuggestions", true);
     }
 
     public function createCustomSuggestions(string $indexId, array $httpBody): array
     {
         return $this->client->send(
             LupaClientInterface::METHOD_POST,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/customSuggestions",
+            "/indices/$indexId/customSuggestions",
             true,
             Utils::jsonEncode($httpBody)
         );
     }
 
-    public function deleteCustomSuggestions(string $indexId, array $httpBody): array
+    public function deleteCustomSuggestions(string $indexId, array $httpBody): void
     {
-        return $this->client->send(
+        $this->client->send(
             LupaClientInterface::METHOD_POST,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/customSuggestions/batchDelete",
+            "/indices/$indexId/customSuggestions/batchDelete",
             true,
             Utils::jsonEncode($httpBody)
         );

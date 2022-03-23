@@ -22,7 +22,7 @@ class TasksApi
 
         return $this->client->send(
             LupaClientInterface::METHOD_GET,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/tasks" . ($query ? "?{$query}" : ''),
+            "/indices/$indexId/tasks" . ($query ? "?{$query}" : ''),
             true
         );
     }

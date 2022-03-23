@@ -13,5 +13,8 @@
       }
     },
     "license": "MIT",
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "archive": {
+      "exclude": [".prettierrc", ".gitignore"]
+    }
 }

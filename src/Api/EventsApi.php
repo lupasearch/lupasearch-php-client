@@ -19,13 +19,8 @@ class EventsApi
         $this->client = $client;
     }
 
-    public function sendEvent(array $httpBody): array
+    public function sendEvent(array $httpBody): void
     {
-        return $this->client->send(
-            LupaClientInterface::METHOD_POST,
-            LupaClientInterface::API_BASE_PATH . '/events',
-            false,
-            Utils::jsonEncode($httpBody)
-        );
+        $this->client->send(LupaClientInterface::METHOD_POST, '/events', false, Utils::jsonEncode($httpBody));
     }
 }

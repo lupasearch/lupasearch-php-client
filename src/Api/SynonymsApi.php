@@ -18,18 +18,14 @@ class SynonymsApi
 
     public function getSynonyms(string $indexId): array
     {
-        return $this->client->send(
-            LupaClientInterface::METHOD_GET,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/synonyms",
-            true
-        );
+        return $this->client->send(LupaClientInterface::METHOD_GET, "/indices/$indexId/synonyms", true);
     }
 
     public function createSynonyms(string $indexId, array $httpBody): array
     {
         return $this->client->send(
             LupaClientInterface::METHOD_POST,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/synonyms",
+            "/indices/$indexId/synonyms",
             true,
             Utils::jsonEncode($httpBody)
         );
@@ -39,7 +35,7 @@ class SynonymsApi
     {
         return $this->client->send(
             LupaClientInterface::METHOD_POST,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/synonyms/batchDelete",
+            "/indices/$indexId/synonyms/batchDelete",
             true,
             Utils::jsonEncode($httpBody)
         );

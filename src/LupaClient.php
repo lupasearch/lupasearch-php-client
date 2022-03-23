@@ -101,7 +101,7 @@ class LupaClient implements LupaClientInterface
         bool $requireAuthentication = false,
         ?string $httpBody = null
     ): array {
-        $request = new Request($method, $uri, self::DEFAULT_HEADERS, $httpBody);
+        $request = new Request($method, LupaClientInterface::API_BASE_PATH . $uri, self::DEFAULT_HEADERS, $httpBody);
 
         $attempts = 0;
         $e = null;

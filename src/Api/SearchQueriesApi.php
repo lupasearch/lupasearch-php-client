@@ -21,18 +21,14 @@ class SearchQueriesApi
 
     public function getSearchQueries(string $indexId): array
     {
-        return $this->client->send(
-            LupaClientInterface::METHOD_GET,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/queries",
-            true
-        );
+        return $this->client->send(LupaClientInterface::METHOD_GET, "/indices/$indexId/queries", true);
     }
 
     public function createSearchQuery(string $indexId, array $httpBody): array
     {
         return $this->client->send(
             LupaClientInterface::METHOD_POST,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/queries",
+            "/indices/$indexId/queries",
             true,
             Utils::jsonEncode($httpBody)
         );
@@ -40,29 +36,21 @@ class SearchQueriesApi
 
     public function getSearchQuery(string $indexId, string $searchQueryId): array
     {
-        return $this->client->send(
-            LupaClientInterface::METHOD_GET,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/queries/$searchQueryId",
-            true
-        );
+        return $this->client->send(LupaClientInterface::METHOD_GET, "/indices/$indexId/queries/$searchQueryId", true);
     }
 
     public function updateSearchQuery(string $indexId, string $searchQueryId, array $httpBody): array
     {
         return $this->client->send(
             LupaClientInterface::METHOD_PUT,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/queries/$searchQueryId",
+            "/indices/$indexId/queries/$searchQueryId",
             true,
             Utils::jsonEncode($httpBody)
         );
     }
 
-    public function deleteSearchQuery(string $indexId, string $searchQueryId): array
+    public function deleteSearchQuery(string $indexId, string $searchQueryId): void
     {
-        return $this->client->send(
-            LupaClientInterface::METHOD_DELETE,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/queries/$searchQueryId",
-            true
-        );
+        $this->client->send(LupaClientInterface::METHOD_DELETE, "/indices/$indexId/queries/$searchQueryId", true);
     }
 }

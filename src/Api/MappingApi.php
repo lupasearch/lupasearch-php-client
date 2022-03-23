@@ -19,21 +19,21 @@ class MappingApi
         $this->client = $client;
     }
 
-    public function createMapping(string $indexId, array $httpBody): array
+    public function createMapping(string $indexId, array $httpBody): void
     {
-        return $this->client->send(
+        $this->client->send(
             LupaClientInterface::METHOD_POST,
-            LupaClientInterface::API_BASE_PATH . "/indices/{$indexId}/mapping",
+            "/indices/{$indexId}/mapping",
             true,
             Utils::jsonEncode($httpBody)
         );
     }
 
-    public function updateMapping(string $indexId, array $httpBody): array
+    public function updateMapping(string $indexId, array $httpBody): void
     {
-        return $this->client->send(
+        $this->client->send(
             LupaClientInterface::METHOD_PUT,
-            LupaClientInterface::API_BASE_PATH . "/indices/{$indexId}/mapping",
+            "/indices/{$indexId}/mapping",
             true,
             Utils::jsonEncode($httpBody)
         );

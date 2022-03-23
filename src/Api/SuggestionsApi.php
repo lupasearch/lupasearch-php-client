@@ -20,10 +20,6 @@ class SuggestionsApi
 
     public function generateSuggestions(string $indexId): array
     {
-        return $this->client->send(
-            LupaClientInterface::METHOD_POST,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/suggestions/generate",
-            true
-        );
+        return $this->client->send(LupaClientInterface::METHOD_POST, "/indices/$indexId/suggestions/generate", true);
     }
 }

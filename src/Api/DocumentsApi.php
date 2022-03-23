@@ -23,7 +23,7 @@ class DocumentsApi
     {
         return $this->client->send(
             LupaClientInterface::METHOD_POST,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/documents",
+            "/indices/$indexId/documents",
             true,
             Utils::jsonEncode($httpBody)
         );
@@ -33,7 +33,17 @@ class DocumentsApi
     {
         return $this->client->send(
             LupaClientInterface::METHOD_POST,
-            LupaClientInterface::API_BASE_PATH . "/indices/$indexId/replaceAllDocuments",
+            "/indices/$indexId/replaceAllDocuments",
+            true,
+            Utils::jsonEncode($httpBody)
+        );
+    }
+
+    public function batchDelete(string $indexId, array $httpBody): void
+    {
+        $this->client->send(
+            LupaClientInterface::METHOD_POST,
+            "/indices/$indexId/documents/batchDelete",
             true,
             Utils::jsonEncode($httpBody)
         );

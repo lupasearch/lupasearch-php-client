@@ -26,7 +26,7 @@ class UsersApi
 
         return $this->client->send(
             LupaClientInterface::METHOD_GET,
-            LupaClientInterface::API_BASE_PATH . "/organizations/$organizationSlug/users" . ($query ? "?{$query}" : ''),
+            "/organizations/$organizationSlug/users" . ($query ? "?{$query}" : ''),
             true
         );
     }
@@ -35,7 +35,7 @@ class UsersApi
     {
         return $this->client->send(
             LupaClientInterface::METHOD_POST,
-            LupaClientInterface::API_BASE_PATH . "/organizations/$organizationSlug/users",
+            "/organizations/$organizationSlug/users",
             true,
             Utils::jsonEncode($httpBody)
         );
@@ -45,19 +45,15 @@ class UsersApi
     {
         return $this->client->send(
             LupaClientInterface::METHOD_POST,
-            LupaClientInterface::API_BASE_PATH . "/organizations/$organizationSlug/users/$userId",
+            "/organizations/$organizationSlug/users/$userId",
             true,
             Utils::jsonEncode($httpBody)
         );
     }
 
-    public function deleteOrganizationUser(string $organizationSlug, string $userId): array
+    public function deleteOrganizationUser(string $organizationSlug, string $userId): void
     {
-        return $this->client->send(
-            LupaClientInterface::METHOD_DELETE,
-            LupaClientInterface::API_BASE_PATH . "/organizations/$organizationSlug/users/$userId",
-            true
-        );
+        $this->client->send(LupaClientInterface::METHOD_DELETE, "/organizations/$organizationSlug/users/$userId", true);
     }
 
     public function userLogin(array $credentials): array
@@ -67,10 +63,6 @@ class UsersApi
 
     public function myInfo(): array
     {
-        return $this->client->send(
-            LupaClientInterface::METHOD_GET,
-            LupaClientInterface::API_BASE_PATH . '/users/me',
-            true
-        );
+        return $this->client->send(LupaClientInterface::METHOD_GET, '/users/me', true);
     }
 }

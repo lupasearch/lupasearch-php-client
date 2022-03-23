@@ -23,7 +23,7 @@ class PublicQueryApi
     {
         return $this->client->send(
             LupaClientInterface::METHOD_POST,
-            LupaClientInterface::API_BASE_PATH . "/query/$queryKey",
+            "/query/$queryKey",
             false,
             Utils::jsonEncode($httpBody)
         );
