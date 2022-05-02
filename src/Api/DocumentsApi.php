@@ -29,6 +29,16 @@ class DocumentsApi
         );
     }
 
+    public function updateDocuments(string $indexId, array $httpBody): array
+    {
+        return $this->client->send(
+            LupaClientInterface::METHOD_PATCH,
+            "/indices/$indexId/documents",
+            true,
+            Utils::jsonEncode($httpBody)
+        );
+    }
+
     public function replaceAllDocuments(string $indexId, array $httpBody): array
     {
         return $this->client->send(

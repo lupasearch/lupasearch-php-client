@@ -18,6 +18,7 @@ interface LupaClientInterface
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
     const METHOD_PUT = 'PUT';
+    const METHOD_PATCH = 'PATCH';
     const METHOD_DELETE = 'DELETE';
 
     const REQUEST_MAX_RETRIES = 3;
