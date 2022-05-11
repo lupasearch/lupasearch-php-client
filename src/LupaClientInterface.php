@@ -4,6 +4,7 @@ namespace LupaSearch;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
 use LupaSearch\Exceptions\AuthenticationException;
 use LupaSearch\Exceptions\MissingCredentialsException;
 use LupaSearch\Exceptions\TooManyRetriesException;
@@ -46,6 +47,7 @@ interface LupaClientInterface
      * @throws GuzzleException
      * @throws MissingCredentialsException
      * @throws TooManyRetriesException
+     * @throws InvalidArgumentException
      */
     public function send(
         string $method,

@@ -1,6 +1,6 @@
 # LupaSearch API PHP Client
 
-- Current client version: v0.1.0
+- Current client version: v0.3.0
 - Supports PHP ^7.2
 
 ## Getting Started
