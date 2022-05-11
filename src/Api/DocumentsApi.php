@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace LupaSearch\Api;
 
-use GuzzleHttp\Utils;
 use LupaSearch\LupaClientInterface;
+use LupaSearch\Utils\JsonUtils;
 
 class DocumentsApi
 {
@@ -25,7 +25,7 @@ class DocumentsApi
             LupaClientInterface::METHOD_POST,
             "/indices/$indexId/documents",
             true,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 
@@ -35,7 +35,7 @@ class DocumentsApi
             LupaClientInterface::METHOD_PATCH,
             "/indices/$indexId/documents",
             true,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 
@@ -45,7 +45,7 @@ class DocumentsApi
             LupaClientInterface::METHOD_POST,
             "/indices/$indexId/replaceAllDocuments",
             true,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 
@@ -55,7 +55,7 @@ class DocumentsApi
             LupaClientInterface::METHOD_POST,
             "/indices/$indexId/documents/batchDelete",
             true,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 }

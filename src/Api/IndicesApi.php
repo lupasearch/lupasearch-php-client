@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace LupaSearch\Api;
 
-use GuzzleHttp\Utils;
 use GuzzleHttp\Psr7\Query;
 use LupaSearch\LupaClientInterface;
+use LupaSearch\Utils\JsonUtils;
 
 class IndicesApi
 {
@@ -26,7 +26,7 @@ class IndicesApi
             LupaClientInterface::METHOD_POST,
             "/organizations/$organizationSlug/projects/$projectSlug/indices",
             true,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 
@@ -50,7 +50,7 @@ class IndicesApi
             LupaClientInterface::METHOD_PUT,
             "/indices/$indexId",
             true,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 

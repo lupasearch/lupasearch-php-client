@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace LupaSearch\Api;
 
-use GuzzleHttp\Utils;
 use GuzzleHttp\Psr7\Query;
 use LupaSearch\LupaClientInterface;
+use LupaSearch\Utils\JsonUtils;
 
 class UsersApi
 {
@@ -37,7 +37,7 @@ class UsersApi
             LupaClientInterface::METHOD_POST,
             "/organizations/$organizationSlug/users",
             true,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 
@@ -47,7 +47,7 @@ class UsersApi
             LupaClientInterface::METHOD_POST,
             "/organizations/$organizationSlug/users/$userId",
             true,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 

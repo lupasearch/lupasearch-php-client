@@ -4,13 +4,14 @@ namespace LupaSearch;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
 use LupaSearch\Exceptions\AuthenticationException;
 use LupaSearch\Exceptions\MissingCredentialsException;
 use LupaSearch\Exceptions\TooManyRetriesException;
 
 interface LupaClientInterface
 {
-    const VERSION = '0.1.0';
+    const VERSION = '0.3.0';
 
     const API_BASE_PATH = 'https://api.lupasearch.com/v1';
     const USER_AGENT = 'LupaSearch API PHP Client, v' . self::VERSION;
@@ -46,6 +47,7 @@ interface LupaClientInterface
      * @throws GuzzleException
      * @throws MissingCredentialsException
      * @throws TooManyRetriesException
+     * @throws InvalidArgumentException
      */
     public function send(
         string $method,

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace LupaSearch\Api;
 
-use GuzzleHttp\Utils;
 use LupaSearch\LupaClientInterface;
+use LupaSearch\Utils\JsonUtils;
 
 class EventsApi
 {
@@ -21,6 +21,6 @@ class EventsApi
 
     public function sendEvent(array $httpBody): void
     {
-        $this->client->send(LupaClientInterface::METHOD_POST, '/events', false, Utils::jsonEncode($httpBody));
+        $this->client->send(LupaClientInterface::METHOD_POST, '/events', false, JsonUtils::jsonEncode($httpBody));
     }
 }
