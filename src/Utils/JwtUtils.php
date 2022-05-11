@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LupaSearch\Utils;
 
-use GuzzleHttp\Utils;
+use LupaSearch\Utils\JsonUtils;
 
 class JwtUtils
 {
@@ -15,7 +15,7 @@ class JwtUtils
         }
 
         [, $payload] = explode('.', $jwtToken);
-        $payload = Utils::jsonDecode(base64_decode($payload), true);
+        $payload = JsonUtils::jsonDecode(base64_decode($payload), true);
 
         return isset($payload['exp']) && time() < $payload['exp'];
     }

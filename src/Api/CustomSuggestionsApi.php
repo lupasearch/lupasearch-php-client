@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace LupaSearch\Api;
 
-use GuzzleHttp\Utils;
 use LupaSearch\LupaClientInterface;
+use LupaSearch\Utils\JsonUtils;
 
 class CustomSuggestionsApi
 {
@@ -30,7 +30,7 @@ class CustomSuggestionsApi
             LupaClientInterface::METHOD_POST,
             "/indices/$indexId/customSuggestions",
             true,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 
@@ -40,7 +40,7 @@ class CustomSuggestionsApi
             LupaClientInterface::METHOD_POST,
             "/indices/$indexId/customSuggestions/batchDelete",
             true,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 }

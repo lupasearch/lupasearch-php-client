@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace LupaSearch;
 
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Utils;
 use LupaSearch\Exceptions\AuthenticationException;
 use LupaSearch\Exceptions\MissingCredentialsException;
 use LupaSearch\Exceptions\TooManyRetriesException;
 use LupaSearch\Factories\HttpClientFactory;
 use LupaSearch\Factories\HttpClientFactoryInterface;
+use LupaSearch\Utils\JsonUtils;
 use LupaSearch\Utils\JwtUtils;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
@@ -122,7 +121,7 @@ class LupaClient implements LupaClientInterface
             try {
                 $response = $this->getHttpClient()->send($request);
 
-                return Utils::jsonDecode($response->getBody()->getContents(), true);
+                return JsonUtils::jsonDecode($response->getBody()->getContents(), true);
             } catch (ConnectException $e) {
                 continue;
             } catch (ClientException $e) {
@@ -167,7 +166,7 @@ class LupaClient implements LupaClientInterface
      */
     public function userLogin(array $credentials): array
     {
-        return $this->send(self::METHOD_POST, '/users/login', false, Utils::jsonEncode($credentials));
+        return $this->send(self::METHOD_POST, '/users/login', false, JsonUtils::jsonEncode($credentials));
     }
 
     /**

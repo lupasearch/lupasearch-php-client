@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace LupaSearch\Api;
 
-use GuzzleHttp\Utils;
 use LupaSearch\LupaClientInterface;
+use LupaSearch\Utils\JsonUtils;
 
 class SynonymsApi
 {
@@ -30,7 +30,7 @@ class SynonymsApi
             LupaClientInterface::METHOD_POST,
             "/indices/$indexId/synonyms",
             true,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 
@@ -40,7 +40,7 @@ class SynonymsApi
             LupaClientInterface::METHOD_POST,
             "/indices/$indexId/synonyms/batchDelete",
             true,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 }

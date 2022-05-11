@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace LupaSearch\Api;
 
-use GuzzleHttp\Utils;
 use LupaSearch\LupaClientInterface;
+use LupaSearch\Utils\JsonUtils;
 
 class MappingApi
 {
@@ -25,7 +25,7 @@ class MappingApi
             LupaClientInterface::METHOD_POST,
             "/indices/{$indexId}/mapping",
             true,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 
@@ -35,7 +35,7 @@ class MappingApi
             LupaClientInterface::METHOD_PUT,
             "/indices/{$indexId}/mapping",
             true,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace LupaSearch\Api;
 
-use GuzzleHttp\Utils;
 use LupaSearch\LupaClientInterface;
+use LupaSearch\Utils\JsonUtils;
 
 class PublicQueryApi
 {
@@ -25,7 +25,7 @@ class PublicQueryApi
             LupaClientInterface::METHOD_POST,
             "/query/$queryKey",
             false,
-            Utils::jsonEncode($httpBody)
+            JsonUtils::jsonEncode($httpBody)
         );
     }
 }
