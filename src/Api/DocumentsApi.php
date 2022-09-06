@@ -43,7 +43,7 @@ class DocumentsApi
     {
         return $this->client->send(
             LupaClientInterface::METHOD_POST,
-            "/indices/$indexId/replaceAllDocuments",
+            "/indices/$indexId/documents/replaceAll",
             true,
             JsonUtils::jsonEncode($httpBody)
         );
