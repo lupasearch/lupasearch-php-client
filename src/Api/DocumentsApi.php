@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace LupaSearch\Api;
 
+use LupaSearch\Exceptions\BadResponseException;
 use LupaSearch\LupaClientInterface;
 use LupaSearch\Utils\JsonUtils;
+use Throwable;
 
 class DocumentsApi
 {
@@ -17,6 +19,28 @@ class DocumentsApi
     public function __construct(LupaClientInterface $client)
     {
         $this->client = $client;
+    }
+
+    /**
+     * @throws BadResponseException
+     */
+    public function getCount(string $indexId): int
+    {
+        try {
+            $response = $this->client->send(
+                LupaClientInterface::METHOD_GET,
+                "/indices/$indexId/documents/count",
+                true
+            );
+        } catch (Throwable $exception) {
+            throw new BadResponseException($exception->getMessage(), $exception->getCode(), $exception);
+        }
+
+        if (!isset($response['count'])) {
+            throw new BadResponseException('Response: ' . var_export($response, true));
+        }
+
+        return (int)$response['count'];
     }
 
     public function importDocuments(string $indexId, array $httpBody): array
