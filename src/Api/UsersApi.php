@@ -27,7 +27,7 @@ class UsersApi
 
         return $this->client->send(
             LupaClientInterface::METHOD_GET,
-            "/organizations/$organizationSlug/users" . ($query ? "?{$query}" : ''),
+            "/organizations/$organizationSlug/users" . ($query ? "?$query" : ''),
             true
         );
     }

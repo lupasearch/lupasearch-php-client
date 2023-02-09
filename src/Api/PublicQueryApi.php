@@ -7,6 +7,8 @@ namespace LupaSearch\Api;
 use LupaSearch\LupaClientInterface;
 use LupaSearch\Utils\JsonUtils;
 
+use function http_build_query;
+
 class PublicQueryApi
 {
     /**
@@ -27,5 +29,12 @@ class PublicQueryApi
             false,
             JsonUtils::jsonEncode($httpBody)
         );
+    }
+
+    public function getSearch(string $queryKey, array $queryParams = []): array
+    {
+        $query = http_build_query($queryParams);
+
+        return $this->client->send(LupaClientInterface::METHOD_GET, "/query/$queryKey" . ($query ? "?$query" : ''));
     }
 }

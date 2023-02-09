@@ -7,6 +7,8 @@ namespace LupaSearch\Api;
 use LupaSearch\LupaClientInterface;
 use LupaSearch\Utils\JsonUtils;
 
+use function http_build_query;
+
 class SynonymsApi
 {
     /**
@@ -41,6 +43,17 @@ class SynonymsApi
             "/indices/$indexId/synonyms/batchDelete",
             true,
             JsonUtils::jsonEncode($httpBody)
+        );
+    }
+
+    public function getSynonymsSuggest(string $indexId, array $queryParams = []): array
+    {
+        $query = http_build_query($queryParams);
+
+        return $this->client->send(
+            LupaClientInterface::METHOD_GET,
+            "/indices/$indexId/synonyms/suggest" . ($query ? "?$query" : ''),
+            true
         );
     }
 }
