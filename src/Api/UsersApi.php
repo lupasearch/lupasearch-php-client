@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace LupaSearch\Api;
 
-use GuzzleHttp\Psr7\Query;
 use LupaSearch\LupaClientInterface;
 use LupaSearch\Utils\JsonUtils;
+
+use function http_build_query;
 
 class UsersApi
 {
@@ -22,7 +23,7 @@ class UsersApi
 
     public function getOrganizationUsers(string $organizationSlug, array $queryParams = []): array
     {
-        $query = Query::build($queryParams);
+        $query = http_build_query($queryParams);
 
         return $this->client->send(
             LupaClientInterface::METHOD_GET,
