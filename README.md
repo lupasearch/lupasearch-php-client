@@ -23,12 +23,14 @@ $documents = [
     'documents' => [
         [
             'id' => 1,
-            'name' => 'Bag'
+            'name' => 'Bag',
+            'category' => 'Bags'
         ],
         [
             'id' => '2',
             'name' => 'Glasses',
-            'price' => 9.99
+            'price' => 9.99,
+            'category' => 'Accessories'
         ]
     ]
 ];
@@ -49,6 +51,18 @@ $tasks = $lupaTasksApi->getTasks($indexId, [
 ]);
 ```
 
+Send search request
+
+```
+$publicQueryKey = 'qraljpj1reo9';
+$lupaPublicQueriesApi = new \LupaSearch\Api\PublicQueryApi($client);
+$searchResponse = $lupaPublicQueriesApi->search($queryKey, [
+    'searchText' => '',
+    'filters' => ['category' => ['Accessories']]
+]);
+```
+
 ## Resources
 
-[Swagger API](https://api.lupasearch.com/docs/)
+- [Swagger API](https://api.lupasearch.com/docs/)
+- [LupaSearch documentation](https://console.lupasearch.com/docs/getting-started/overview)

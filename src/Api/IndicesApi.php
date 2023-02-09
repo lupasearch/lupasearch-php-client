@@ -66,7 +66,7 @@ class IndicesApi
 
         return $this->client->send(
             LupaClientInterface::METHOD_PUT,
-            "/indices/$indexId/status" . ($query ? "?{$query}" : ''),
+            "/indices/$indexId/status" . ($query ? "?$query" : ''),
             true
         );
     }
