@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace LupaSearch\Exceptions;
 
-class MissingCredentialsException extends ApiException
+class NotFoundException extends ApiException
 {
 }

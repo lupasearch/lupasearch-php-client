@@ -10,11 +10,14 @@ use LupaSearch\Exceptions\MissingCredentialsException;
 use LupaSearch\Exceptions\TooManyRetriesException;
 use LupaSearch\Factories\HttpClientFactory;
 use LupaSearch\Factories\HttpClientFactoryInterface;
+use LupaSearch\Handlers\ErrorHandlerInterface;
+use LupaSearch\Handlers\RequestErrorHandler;
 use LupaSearch\Utils\JsonUtils;
 use LupaSearch\Utils\JwtUtils;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
+use Throwable;
 
 class LupaClient implements LupaClientInterface
 {
@@ -22,6 +25,11 @@ class LupaClient implements LupaClientInterface
      * @var HttpClientFactoryInterface|null
      */
     private $httpClientFactory;
+
+    /**
+     * @var ErrorHandlerInterface|null
+     */
+    private $errorHandler;
 
     /**
      * @var ClientInterface|null
@@ -43,9 +51,12 @@ class LupaClient implements LupaClientInterface
      */
     private $password;
 
-    public function __construct(HttpClientFactoryInterface $httpClientFactory = null)
-    {
+    public function __construct(
+        HttpClientFactoryInterface $httpClientFactory = null,
+        ErrorHandlerInterface $errorHandler = null
+    ) {
         $this->httpClientFactory = $httpClientFactory ?? new HttpClientFactory();
+        $this->errorHandler = $errorHandler ?? new RequestErrorHandler();
     }
 
     public function getHttpClient(): ClientInterface
@@ -129,7 +140,9 @@ class LupaClient implements LupaClientInterface
                     $this->setJwtToken(null);
                     continue;
                 }
-                throw $e;
+                $this->errorHandler->handle($e);
+            } catch (Throwable $e) {
+                $this->errorHandler->handle($e);
             }
         } while (true);
     }

@@ -6,7 +6,7 @@ namespace LupaSearch\Exceptions;
 
 use Throwable;
 
-class TooManyRetriesException extends \Exception
+class TooManyRetriesException extends ApiException
 {
     public function __construct($message = '', $code = 0, Throwable $previous = null)
     {
