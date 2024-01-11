@@ -1,11 +1,20 @@
 # LupaSearch API PHP Client
 
-- Current client version: v0.4.0
+- Current client version: v0.5.0
 - Supports PHP ^7.2
 
 ## Getting Started
 
-Initiate client object and authenticate
+### Authentication and authorization
+
+Initiate client object and set the API key for authorization (recommended). 
+
+```
+$client = new \LupaSearch\LupaClient();
+$client->setApiKey("your_api_key_here");
+```
+
+Alternatively, you can use email and password credentials for authentication and JWT token for authorization.
 
 ```
 $client = new \LupaSearch\LupaClient();
@@ -15,7 +24,9 @@ $client
     ->authenticate();
 ```
 
-Import documents into search index
+### Data indexing
+
+Import documents into search index:
 
 ```
 $indexId = '7a31899f-31bc-46ac-b782-a44d71c5d622';
@@ -42,7 +53,7 @@ $importResponse = $lupaDocumentsApi->importDocuments(
 );
 ```
 
-Track progress of asynchronous tasks
+Track progress of asynchronous tasks:
 
 ```
 $lupaTasksApi = new \LupaSearch\Api\TasksApi($client);
@@ -51,7 +62,9 @@ $tasks = $lupaTasksApi->getTasks($indexId, [
 ]);
 ```
 
-Send search request
+### Search
+
+Send search request:
 
 ```
 $publicQueryKey = 'qraljpj1reo9';

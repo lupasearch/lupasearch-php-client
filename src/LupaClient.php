@@ -6,6 +6,7 @@ namespace LupaSearch;
 
 use GuzzleHttp\Exception\ConnectException;
 use LupaSearch\Exceptions\AuthenticationException;
+use LupaSearch\Exceptions\AuthorizationException;
 use LupaSearch\Exceptions\MissingCredentialsException;
 use LupaSearch\Exceptions\TooManyRetriesException;
 use LupaSearch\Factories\HttpClientFactory;
@@ -50,6 +51,11 @@ class LupaClient implements LupaClientInterface
      * @var string|null
      */
     private $password;
+
+    /**
+     * @var string|null
+     */
+    private $apiKey;
 
     public function __construct(
         HttpClientFactoryInterface $httpClientFactory = null,
@@ -101,6 +107,47 @@ class LupaClient implements LupaClientInterface
         return $this;
     }
 
+    public function setApiKey(?string $apiKey): self
+    {
+        $this->apiKey = $apiKey;
+
+        return $this;
+    }
+
+    public function getApiKey(): ?string
+    {
+        return $this->apiKey;
+    }
+
+    public function getAuthorizationType(): string
+    {
+        if ($this->getApiKey()) {
+            return self::AUTH_TYPE_API_KEY;
+        }
+
+        if ($this->getJwtToken() || ($this->email && $this->password)) {
+            return self::AUTH_TYPE_JWT;
+        }
+
+        throw new AuthorizationException(
+            'Failed to determine authorization type. Either set API key or JWT token (auth credentials) to continue.'
+        );
+    }
+
+    public function withAuthorizationHeader(Request $request, string $authType): Request
+    {
+        switch ($authType) {
+            case self::AUTH_TYPE_API_KEY:
+                return $request->withHeader(self::HEADER_LUPA_API_KEY, $this->getApiKey());
+            case self::AUTH_TYPE_JWT:
+                $jwtToken = $this->getOrRefreshJwtToken();
+
+                return $request->withHeader('Authorization', "Bearer {$jwtToken}");
+        }
+
+        return $request;
+    }
+
     /**
      * @inheritDoc
      */
@@ -125,8 +172,7 @@ class LupaClient implements LupaClientInterface
             }
 
             if ($requireAuthentication) {
-                $jwtToken = $this->getOrRefreshJwtToken();
-                $request = $request->withHeader('Authorization', "Bearer $jwtToken");
+                $request = $this->withAuthorizationHeader($request, $this->getAuthorizationType());
             }
 
             try {
@@ -136,7 +182,7 @@ class LupaClient implements LupaClientInterface
             } catch (ConnectException $e) {
                 continue;
             } catch (ClientException $e) {
-                if ($e->getCode() === 401) {
+                if ($e->getCode() === 401 && $this->getAuthorizationType() === self::AUTH_TYPE_JWT) {
                     $this->setJwtToken(null);
                     continue;
                 }
