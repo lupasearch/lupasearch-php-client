@@ -142,7 +142,7 @@ class LupaClient implements LupaClientInterface
             case self::AUTH_TYPE_JWT:
                 $jwtToken = $this->getOrRefreshJwtToken();
 
-                return $request->withHeader('Authorization', "Bearer $jwtToken");
+                return $request->withHeader('Authorization', "Bearer {$jwtToken}");
         }
 
         return $request;
