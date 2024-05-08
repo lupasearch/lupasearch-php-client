@@ -31,7 +31,7 @@ class JsonUtils
     /**
      * @throws InvalidArgumentException
      */
-    public static function jsonEncode($value, int $options = 0, int $depth = 512): string
+    public static function jsonEncode($value, int $options = \JSON_UNESCAPED_UNICODE, int $depth = 512): string
     {
         $json = json_encode($value, $options, $depth);
         if (JSON_ERROR_NONE !== json_last_error()) {
