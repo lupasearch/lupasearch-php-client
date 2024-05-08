@@ -13,7 +13,7 @@ use LupaSearch\Exceptions\TooManyRetriesException;
 
 interface LupaClientInterface
 {
-    const VERSION = '0.5.0';
+    const VERSION = '0.5.1';
 
     const API_BASE_PATH = 'https://api.lupasearch.com/v1';
     const USER_AGENT = 'LupaSearch API PHP Client, v' . self::VERSION;
