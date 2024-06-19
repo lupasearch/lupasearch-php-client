@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LupaSearch;
 
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ServerException;
 use LupaSearch\Exceptions\AuthenticationException;
 use LupaSearch\Exceptions\AuthorizationException;
 use LupaSearch\Exceptions\MissingCredentialsException;
@@ -179,7 +180,7 @@ class LupaClient implements LupaClientInterface
                 $response = $this->getHttpClient()->send($request);
 
                 return JsonUtils::jsonDecode($response->getBody()->getContents(), true);
-            } catch (ConnectException $e) {
+            } catch (ConnectException|ServerException $e) {
                 continue;
             } catch (ClientException $e) {
                 if ($e->getCode() === 401 && $this->getAuthorizationType() === self::AUTH_TYPE_JWT) {
