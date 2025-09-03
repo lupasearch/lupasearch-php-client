@@ -59,8 +59,8 @@ class LupaClient implements LupaClientInterface
     private $apiKey;
 
     public function __construct(
-        HttpClientFactoryInterface $httpClientFactory = null,
-        ErrorHandlerInterface $errorHandler = null
+        ?HttpClientFactoryInterface $httpClientFactory = null,
+        ?ErrorHandlerInterface $errorHandler = null
     ) {
         $this->httpClientFactory = $httpClientFactory ?? new HttpClientFactory();
         $this->errorHandler = $errorHandler ?? new RequestErrorHandler();

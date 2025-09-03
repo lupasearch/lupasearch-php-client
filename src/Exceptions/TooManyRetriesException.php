@@ -8,7 +8,7 @@ use Throwable;
 
 class TooManyRetriesException extends ApiException
 {
-    public function __construct($message = '', $code = 0, Throwable $previous = null)
+    public function __construct($message = '', $code = 0, ?Throwable $previous = null)
     {
         $message = $message . ($previous instanceof Throwable ? ". Error: {$previous->getMessage()}" : '');
 
