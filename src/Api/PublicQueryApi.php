@@ -31,6 +31,16 @@ class PublicQueryApi
         );
     }
 
+    public function getFacets(string $queryKey, array $httpBody): array
+    {
+        return $this->client->send(
+            LupaClientInterface::METHOD_POST,
+            "/query/$queryKey/facets",
+            false,
+            JsonUtils::jsonEncode($httpBody)
+        );
+    }
+
     public function getSearch(string $queryKey, array $queryParams = []): array
     {
         $query = http_build_query($queryParams);
