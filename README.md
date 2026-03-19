@@ -75,6 +75,19 @@ $searchResponse = $lupaPublicQueriesApi->search($queryKey, [
 ]);
 ```
 
+### Facets
+
+Send facet retrieval request:
+
+```
+$publicQueryKey = 'qraljpj1reo9';
+$lupaPublicQueriesApi = new \LupaSearch\Api\PublicQueryApi($client);
+$facetsResponse = $lupaPublicQueriesApi->getFacets($publicQueryKey, [
+    'searchText' => '',
+    'filters' => ['category' => ['Accessories']]
+]);
+```
+
 ## Resources
 
 - [Swagger API](https://api.lupasearch.com/docs/)
