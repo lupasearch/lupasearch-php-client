@@ -88,6 +88,19 @@ $facetsResponse = $lupaPublicQueriesApi->getFacets($publicQueryKey, [
 ]);
 ```
 
+### Related Queries
+
+Send related queries request:
+
+```
+$publicQueryKey = 'qraljpj1reo9';
+$lupaPublicQueriesApi = new \LupaSearch\Api\PublicQueryApi($client);
+$relatedQueriesResponse = $lupaPublicQueriesApi->getRelatedQueries($publicQueryKey, [
+    'searchText' => 'samsung',
+    'filters' => ['category' => ['Phones']]
+]);
+```
+
 ## Resources
 
 - [Swagger API](https://api.lupasearch.com/docs/)
