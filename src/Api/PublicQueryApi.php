@@ -41,6 +41,42 @@ class PublicQueryApi
         );
     }
 
+    /**
+     * @param string $queryKey Unique search query key
+     * @param array{
+     *     searchText?: string,
+     *     selectFields?: array<array<string>>,
+     *     filters?: array<string, mixed>,
+     *     exclusionFilters?: array<string, mixed>,
+     *     offset?: int,
+     *     limit?: int,
+     *     sort?: array<array<string, string>|array<string, string>>,
+     *     sessionId?: string,
+     *     userId?: string,
+     *     trackTerm?: bool,
+     *     analyticsMetadata?: array<string, mixed>,
+     *     modifiers?: array<string, mixed>,
+     * } $httpBody
+     * @return array{relatedQueries: list<array{
+     *     topItems: list<array<string, mixed>>,
+     *     total: int,
+     *     query: string,
+     *     facetKey?: string,
+     *     filterValue?: string,
+     *     type: string,
+     *     action: string,
+     * }>}
+     */
+    public function getRelatedQueries(string $queryKey, array $httpBody): array
+    {
+        return $this->client->send(
+            LupaClientInterface::METHOD_POST,
+            "/query/$queryKey/related",
+            false,
+            JsonUtils::jsonEncode($httpBody)
+        );
+    }
+
     public function getSearch(string $queryKey, array $queryParams = []): array
     {
         $query = http_build_query($queryParams);
