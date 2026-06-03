@@ -45,7 +45,7 @@ class PublicQueryApi
      * @param string $queryKey Unique search query key
      * @param array{
      *     searchText?: string,
-     *     selectFields?: array<array<string>>,
+     *     selectFields?: string[],
      *     filters?: array<string, mixed>,
      *     exclusionFilters?: array<string, mixed>,
      *     offset?: int,
